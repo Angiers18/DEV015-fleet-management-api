@@ -1,10 +1,11 @@
-import os
 # Este archivo configura la app
+import os # os interactua con el sistema operativo
+
 # Configura la cadena de conexión desde el panel de Vercel
 class Config:
-    #SQLALCHEMY_DATABASE_URI = "postgres://default:ARgfMHVes85Z@ep-white-morning-a40680zk.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
+
     SQLALCHEMY_DATABASE_URI = (
-        "postgresql://default:ARgfMHVes85Z@ep-white-morning-a40680zk.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
+         "postgresql://default:ARgfMHVes85Z@ep-white-morning-a40680zk.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
     )
-#stackoverflow hace 4M: dice que la URI debe comenzar con postgresql ya que no acepta postgres (antes si lo aceptaba)
+    #no rastrear todas las modificaciones SQL, eso hace que la aplicación sea más eficiente.
     SQLALCHEMY_TRACK_MODIFICATIONS = False

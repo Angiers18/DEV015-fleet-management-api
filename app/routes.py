@@ -1,2 +1,1 @@
-#  # Define las rutas de la aplicació
-
+#  Define las rutas de la aplicació
