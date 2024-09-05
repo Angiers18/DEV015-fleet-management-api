@@ -22,20 +22,32 @@ def create_app() :
         #paginacion
         page = int(request.args.get('page', 1)) #una pagina
         per_page = int(request.args.get('per_page', 10)) #maximo diez elementos por pagina
-        plate = request.args.get('plate', '') # queryparams    
+        plate = request.args.get('plate', '') # queryparams
 
         query = db.session.query(Taxi) # inicia una consulta
         if plate:
          # like y % funcionan en sql verifica una secuencia de caracteres
             query = query.filter(Taxi.plate.like(f'%{plate}%'))
 
+        limit = request.args.get('limit', )
+        if limit:
+            try:
+                limit = int(limit)
+                if limit < 1:
+                    limit = per_page
+
+            except ValueError:
+                limit = per_page
+        else:
+            limit = per_page
+
         # Obtiene total de resultados
         # total = query.count()
 
-        taxis = query.offset((page - 1) * per_page).limit(per_page).all()
+        taxis = query.offset((page - 1) * per_page).limit(limit).all()
 
         return [taxi.to_dict() for taxi in taxis]
-    
+
 
     @app.route("/angie")
     def hola():
