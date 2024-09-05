@@ -21,8 +21,8 @@ def create_app() :
 
         #paginacion
         page = int(request.args.get('page', 1)) #una pagina
-        per_page = int(request.args.get('per_page', 10)) #diez elementos por pagina
-        plate = request.args.get('plate', '') # queryparams
+        per_page = int(request.args.get('per_page', 10)) #maximo diez elementos por pagina
+        plate = request.args.get('plate', '') # queryparams    
 
         query = db.session.query(Taxi) # inicia una consulta
         if plate:
@@ -30,22 +30,18 @@ def create_app() :
             query = query.filter(Taxi.plate.like(f'%{plate}%'))
 
         # Obtiene total de resultados
-        total = query.count()
+        # total = query.count()
 
         taxis = query.offset((page - 1) * per_page).limit(per_page).all()
 
-        return {
-            'page': page,
-            'per_page': per_page,
-            'total': total,
-            'taxis': [taxi.to_dict() for taxi in taxis]
-        }
+        return [taxi.to_dict() for taxi in taxis]
+    
 
     @app.route("/angie")
     def hola():
         return "Estamos Bien!!"
 
-         # Registra los modelos
+    # Registra los modelos
     with app.app_context() :
         db.create_all()          # Crea las tablas en la base de datos
         return app
