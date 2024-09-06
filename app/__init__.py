@@ -1,7 +1,8 @@
 # Este file inicializa la aplicación Flask
-from flask import Flask, request
-from app.db import db
-from app.models import Taxi
+from flask import Flask
+from app.database.db import db
+from app.routes.routes_taxis import bp_route_taxis
+from app.routes.routes_home import bp_route_home
 
 def create_app() :
     app = Flask(__name__)
@@ -10,48 +11,9 @@ def create_app() :
     # Inicializa la base de datos
     db.init_app(app)
 
+    app.register_blueprint(bp_route_home)
 
-    @app.route("/")
-    def hi() :
-        return "Hola mundo!!"
-
-
-    @app.route("/taxis", methods=['GET'])
-    def get_taxis() :
-
-        #paginacion
-        page = int(request.args.get('page', 1)) #una pagina
-        per_page = int(request.args.get('per_page', 10)) #maximo diez elementos por pagina
-        plate = request.args.get('plate', '') # queryparams
-
-        query = db.session.query(Taxi) # inicia una consulta
-        if plate:
-         # like y % funcionan en sql verifica una secuencia de caracteres
-            query = query.filter(Taxi.plate.like(f'%{plate}%'))
-
-        limit = request.args.get('limit', )
-        if limit:
-            try:
-                limit = int(limit)
-                if limit < 1:
-                    limit = per_page
-
-            except ValueError:
-                limit = per_page
-        else:
-            limit = per_page
-
-        # Obtiene total de resultados
-        # total = query.count()
-
-        taxis = query.offset((page - 1) * per_page).limit(limit).all()
-
-        return [taxi.to_dict() for taxi in taxis]
-
-
-    @app.route("/angie")
-    def hola():
-        return "Estamos Bien!!"
+    app.register_blueprint(bp_route_taxis)
 
     # Registra los modelos
     with app.app_context() :
