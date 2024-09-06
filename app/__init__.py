@@ -3,6 +3,7 @@ from flask import Flask
 from app.database.db import db
 from app.routes.routes_taxis import bp_route_taxis
 from app.routes.routes_home import bp_route_home
+from app.routes.routes_trajectories import bp_route_trajectories
 
 def create_app() :
     app = Flask(__name__)
@@ -14,6 +15,8 @@ def create_app() :
     app.register_blueprint(bp_route_home)
 
     app.register_blueprint(bp_route_taxis)
+
+    app.register_blueprint(bp_route_trajectories)
 
     # Registra los modelos
     with app.app_context() :
