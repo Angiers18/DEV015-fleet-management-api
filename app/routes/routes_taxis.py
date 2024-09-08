@@ -21,7 +21,7 @@ def get_taxis() :
     if limit:
         try:
             limit = int(limit)
-            if limit < 1:
+            if limit < 1 or limit > 10:
                 limit = per_page
 
         except ValueError:
