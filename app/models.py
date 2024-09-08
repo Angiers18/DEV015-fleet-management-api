@@ -41,4 +41,4 @@ class Trajectory(db.Model):
         "latitude": self.latitude,
         "longitude": self.longitude
         }
-    
+   
