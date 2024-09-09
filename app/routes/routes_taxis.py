@@ -28,7 +28,7 @@ def get_taxis() :
     per_page = int(request.args.get('per_page', 10))
     plate = request.args.get('plate', '')
 
-    query = db.session.query(Taxi) # inicia una consulta
+    query = db.session.query(Taxi) #inicia una consulta
     if plate:
         # like y % funcionan en sql verifica una secuencia de caracteres
         query = query.filter(Taxi.plate.like(f'%{plate}%'))

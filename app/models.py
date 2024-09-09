@@ -15,7 +15,7 @@ class Taxi(db.Model):
     def to_dict(self):
         return {
         "id": self.id,
-        "plate": self.plate,
+        "plate": self.plate
         }
 
 class Trajectory(db.Model):
@@ -32,3 +32,13 @@ class Trajectory(db.Model):
     date = db.Column(db.DateTime)
     latitude = db.Column(db.Float)
     longitude = db.Column(db.Float)
+
+    def to_dict(self):
+        return {
+        "id": self.id,
+        "taxiId": self.taxi_id,
+        "date": self.date,
+        "latitude": self.latitude,
+        "longitude": self.longitude
+        }
+   
