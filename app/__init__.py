@@ -1,7 +1,8 @@
 # Este file inicializa la aplicación Flask
-from flask import Flask, jsonify
-from app.db import db
-from app.models import Taxi
+from flask import Flask
+from app.database.db import db
+from app.routes.routes_taxis import bp_route_taxis
+from app.routes.routes_home import bp_route_home
 
 def create_app() :
     app = Flask(__name__)
@@ -10,32 +11,12 @@ def create_app() :
     # Inicializa la base de datos
     db.init_app(app)
 
+    app.register_blueprint(bp_route_home)
 
-    @app.route("/")
-    def hi() :
-            return "Hola mundo!!"
+    app.register_blueprint(bp_route_taxis)
 
-
-    @app.route("/taxi", methods=['GET'])
-    def get_taxis() :
-       # Consulta los taxis en la bade de datos
-       taxi = Taxi.query.all()
-       # Los vuelve los lista de diccionarios
-       taxi_list = [{"id": taxi.id, "plate": taxi.plate} for taxi in taxi]
-
-       return jsonify(taxi_list)
-         
-    @app.route("/angie")
-    def hola():
-       return "Estamos Bien!!"
-
-         # Registra los modelos
+    # Registra los modelos
     with app.app_context() :
-      db.create_all()          # Crea las tablas en la base de datos
-      return app
-
-
-
-
-
+        db.create_all()          # Crea las tablas en la base de datos
+        return app
 

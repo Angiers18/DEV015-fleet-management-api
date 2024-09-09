@@ -1,10 +1,29 @@
-import os
-# Este archivo configura la app
-# Configura la cadena de conexión desde el panel de Vercel
+"""
+    Este archivo define las configuraciones de la app Flask
+
+    Attributes:
+    Config (class): Clase base que define las configuraciones generales de la aplicación.
+
+"""
+import os # os interactua con el sistema operativo
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Importa la variable de entorno(privada) desde el archivo .env
+uri = os.getenv('BD_URI')
+
 class Config:
-    #SQLALCHEMY_DATABASE_URI = "postgres://default:ARgfMHVes85Z@ep-white-morning-a40680zk.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
-    SQLALCHEMY_DATABASE_URI = (
-        "postgresql://default:ARgfMHVes85Z@ep-white-morning-a40680zk.us-east-1.aws.neon.tech:5432/verceldb?sslmode=require"
-    )
-#stackoverflow hace 4M: dice que la URI debe comenzar con postgresql ya que no acepta postgres (antes si lo aceptaba)
+
+    """
+    Esta clase define los parámetros de configuración generales que son comunes a todos los
+    entornos, como la configuración de la base de datos.
+
+    SQLALCHEMY_DATABASE_URI (str): URI de la base de datos utilizada por SQLAlchemy.
+    SQLALCHEMY_TRACK_MODIFICATIONS (bool): Deshabilita la notificación de cambios de SQLAlchemy.
+    
+    """
+    SQLALCHEMY_DATABASE_URI = uri
+
+    #no rastrear todas las modificaciones SQL, eso hace que la aplicación sea más eficiente.
     SQLALCHEMY_TRACK_MODIFICATIONS = False
