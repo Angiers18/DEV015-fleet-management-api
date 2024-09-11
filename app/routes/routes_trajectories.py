@@ -5,9 +5,9 @@ from app.database.db import db
 from app.models import Trajectory
 
 
-bp_route_trajectories = Blueprint('bp_route_trajectories', __name__)
+bp_route_trajectories = Blueprint('bp_route_trajectories', __name__, url_prefix='/trajectories' )
 
-@bp_route_trajectories.route("/trajectories", methods=['GET'])
+@bp_route_trajectories.route("/", methods=['GET'])
 def get_trajectories() :
 
     """
