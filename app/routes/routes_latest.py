@@ -1,7 +1,7 @@
 from sqlalchemy import func
 from flask import Blueprint, jsonify
 from app.database.db import db
-from app.models import Trajectory
+from app.models import Trajectory, Taxi
 
 bp_route_latest = Blueprint('bp_route_latest', __name__)
 
@@ -16,9 +16,25 @@ def get_latest_trajectories():
         #group_by (agrupa los resultados de cada taxi con su ultima trayectoria)
     ).group_by(Trajectory.taxi_id).subquery()
 
-    latest = db.session.query(subquery).all()
-    print('ultimas rutas y taxi_id', latest)
+    last_trajectories = db.session.query(
+        Taxi.id,
+        Taxi.plate,
+        Trajectory.date,
+        Trajectory.latitude,
+        Trajectory.longitude
+    ).join(Trajectory, Taxi.id == Trajectory.taxi_id)\
+    .filter(Trajectory.taxi_id == subquery.c.taxi_id)\
+    .filter(Trajectory.date == subquery.c.latest_trajectories)\
+    .all()
 
-    latest_data = [{'taxi_id': row[0], 'latest_trajectories': row[1]} for row in latest]
+    dict_latest_trajectories = []
+    for trajectory in last_trajectories:
+        dict_latest_trajectories.append({
+            'taxiId': trajectory.id,              # Taxi ID
+            'plate': trajectory.plate,            # Placa del taxi
+            'timestamp': trajectory.date,         # Fecha de la última trayectoria
+            'latitude': trajectory.latitude,      # Latitud
+            'longitude': trajectory.longitude     # Longitud
+        })
 
-    return jsonify(latest_data)
+    return jsonify(dict_latest_trajectories)
