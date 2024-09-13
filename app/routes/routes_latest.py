@@ -8,10 +8,12 @@ bp_route_latest = Blueprint('bp_route_latest', __name__)
 @bp_route_latest.route('/trajectories/latest', methods=['GET'])
 def get_latest_trajectories():
 
-         # Subconsulta que obtiene la última trayectoria por taxi_id
+    # Subconsulta que obtiene la última trayectoria por taxi_id
     subquery = db.session.query(
         Trajectory.taxi_id,
-        func.max(Trajectory.date).label('latest_trajectories')
+        #func max (funcion de sql) .label(renombra el resultado de una función)
+        func.max(Trajectory.date).label('latest_trajectories') 
+        #group_by (agrupa los resultados de cada taxi con su ultima trayectoria)
     ).group_by(Trajectory.taxi_id).subquery()
 
     latest = db.session.query(subquery).all()
