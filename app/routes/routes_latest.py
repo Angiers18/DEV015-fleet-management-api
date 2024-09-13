@@ -24,8 +24,11 @@ def get_latest_trajectories():
         Trajectory.longitude
     ).join(Trajectory, Taxi.id == Trajectory.taxi_id)\
     .filter(Trajectory.taxi_id == subquery.c.taxi_id)\
-    .filter(Trajectory.date == subquery.c.latest_trajectories)\
+    .filter(Trajectory.date == subquery.c.latest_trajectories).distinct()\
     .all()
+
+    if not last_trajectories:
+        return jsonify({ "error": "Ultimas rutas no encontradas" }), 404
 
     dict_latest_trajectories = []
     for trajectory in last_trajectories:
@@ -37,4 +40,4 @@ def get_latest_trajectories():
             'longitude': trajectory.longitude     # Longitud
         })
 
-    return jsonify(dict_latest_trajectories)
+    return jsonify(dict_latest_trajectories), 200
