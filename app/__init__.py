@@ -4,6 +4,9 @@ from app.database.db import db
 from app.routes.routes_taxis import bp_route_taxis
 from app.routes.routes_home import bp_route_home
 from app.routes.routes_trajectories import bp_route_trajectories
+from .routes.routes_latest import bp_route_latest
+
+
 
 def create_app() :
     app = Flask(__name__)
@@ -18,8 +21,9 @@ def create_app() :
 
     app.register_blueprint(bp_route_trajectories)
 
+    app.register_blueprint(bp_route_latest)
+
     # Registra los modelos
     with app.app_context() :
         db.create_all()          # Crea las tablas en la base de datos
         return app
-
