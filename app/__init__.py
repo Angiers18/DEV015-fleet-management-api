@@ -4,7 +4,8 @@ from app.database.db import db
 from app.routes.routes_taxis import bp_route_taxis
 from app.routes.routes_home import bp_route_home
 from app.routes.routes_trajectories import bp_route_trajectories
-from .routes.routes_latest import bp_route_latest
+from app.routes.routes_latest import bp_route_latest
+from app.routes.routes_users import bp_route_user
 
 
 
@@ -16,12 +17,10 @@ def create_app() :
     db.init_app(app)
 
     app.register_blueprint(bp_route_home)
-
     app.register_blueprint(bp_route_taxis)
-
     app.register_blueprint(bp_route_trajectories)
-
     app.register_blueprint(bp_route_latest)
+    app.register_blueprint(bp_route_user)
 
     # Registra los modelos
     with app.app_context() :

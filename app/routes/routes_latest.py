@@ -12,7 +12,7 @@ def get_latest_trajectories():
     subquery = db.session.query(
         Trajectory.taxi_id,
         #func max (funcion de sql) .label(renombra el resultado de una función)
-        func.max(Trajectory.date).label('latest_trajectories') 
+        func.max(Trajectory.date).label('latest_trajectories')
         #group_by (agrupa los resultados de cada taxi con su ultima trayectoria)
     ).group_by(Trajectory.taxi_id).subquery()
 

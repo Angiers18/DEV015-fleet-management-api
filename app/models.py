@@ -67,3 +67,32 @@ class Trajectory(db.Model):
         "longitude": self.longitude
         }
 
+class User(db.Model):
+
+    """"
+     Representa la tabla 'users' en la base de datos.
+    
+     Atributos: 
+        id (int): numero id unico para cada usuario.
+        name (str): nombre del usuario.
+        email (str): email del usuario.
+        password (str): contraseña del usuario.
+
+     Metodo:
+        to_dict(): convierte los atributos en un diccionario (JSON).
+
+    """
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False, unique=True)
+    password = db.Column(db.String(100), nullable=False)
+
+    def to_dict(self):
+        return {
+        "id": self.id,
+        "name": self.name,
+        "email": self.email,
+        "password": self.password
+        }
