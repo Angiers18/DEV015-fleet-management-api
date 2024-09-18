@@ -14,6 +14,11 @@ def create_new_user():
     if not 'name' in user_data or not 'email' in user_data or not 'password' in user_data:
         return jsonify({'error': 'Datos incompletos'}), 400
 
+    duplicate_email = User.query.filter_by(email=user_data['email']).first()
+
+    if duplicate_email:
+        return jsonify({"error": "El email ya existe"}), 409
+
     # une la data obtenida del ususario con las column de la db
     new_user = User(
         name = user_data['name'],
@@ -25,7 +30,11 @@ def create_new_user():
 
     try:
         db.session.commit()
-        return jsonify({'message': 'Usuario agregado exitosamente'}), 201
+        return jsonify({'message': 'Usuario agregado exitosamente',
+                        'id': new_user.id,
+                        'name': new_user.name,
+                        'email': new_user.email
+                        }), 201
 
     except Exception as e:
         db.session.rollback()
