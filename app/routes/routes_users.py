@@ -1,6 +1,9 @@
 from flask import Blueprint, request, jsonify
-from app.services.user_service import conection_create_user, conection_get_users
+from app.services.user_service import conection_create_user, conection_get_users, conection_update_users
 from app.controllers.user_controller import get_params_users
+from app.database.db import db
+from app.models.user_model import User
+
 
 bp_route_user = Blueprint('bp_route_user', __name__)
 
@@ -35,3 +38,13 @@ def get_users():
         return jsonify({'error':'Error, no se encontraron usuarios'}), 404
 
     return users
+
+@bp_route_user.route('/users/<uid>', methods=['PATCH'])
+def update_users(uid):
+
+    if not uid:
+        return jsonify({'error': 'Error, ingresar ID para validar el usuario'}), 400
+
+    new_data_update = conection_update_users(uid)
+
+    return new_data_update

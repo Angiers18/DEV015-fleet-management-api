@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, request
 from app.database.db import db
 from app.models.user_model import User
 
@@ -55,3 +55,33 @@ def conection_get_users(page, limit):
     query = db.session.query(User)
     users = query.offset((page - 1) * limit).limit(limit).all()
     return jsonify([user.to_dict() for user in users])
+
+
+def conection_update_users(uid):
+
+    user = db.session.query(User).filter_by(id=uid).first()
+
+    if not user:
+        return jsonify({'error': 'Usuario no encontrado'}), 404
+
+    data = request.get_json()
+
+    if 'email' in data or 'password' in data:
+        return jsonify({'error': 'Error, No esta permitido modificar el email o el password'}), 400
+
+    if 'name' in data:
+        user.name = data['name']
+
+    try:
+        db.session.commit()
+
+        return jsonify({
+            'message': 'Ususario actualizado con exito',
+            'id': user.id,
+            'name': user.name,
+            'email': user.email
+        }), 200
+
+    except ValueError as e:
+        db.session.rollback()
+        return jsonify({'error': 'Error al actualizar el usuario', 'details': str(e)}), 500
