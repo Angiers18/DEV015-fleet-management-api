@@ -47,3 +47,11 @@ def conection_create_user(user_data):
     except ValueError as e:
         db.session.rollback()
         return jsonify({'error': 'Error al crear el usuario', 'details': str(e)}), 500
+
+
+
+def conection_get_users(page, limit):
+
+    query = db.session.query(User)
+    users = query.offset((page - 1) * limit).limit(limit).all()
+    return jsonify([user.to_dict() for user in users])

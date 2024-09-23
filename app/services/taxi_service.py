@@ -28,4 +28,5 @@ def consult_taxis( page, per_page, plate, limit):
     # Obtiene total de resultados
     # total = query.count()
 
-    return [taxi.to_dict() for taxi in taxis]     
+    return [taxi.to_dict() for taxi in taxis]
+    

@@ -1,6 +1,6 @@
 from flask import request
 
-def get_params_taxis() :
+def get_params_taxis():
 
     """
     obtiene los params:

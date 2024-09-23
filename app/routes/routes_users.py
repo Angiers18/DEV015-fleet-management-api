@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
-from app.services.user_service import conection_create_user
-
+from app.services.user_service import conection_create_user, conection_get_users
+from app.controllers.user_controller import get_params_users
 
 bp_route_user = Blueprint('bp_route_user', __name__)
 
@@ -16,3 +16,22 @@ def create_new_user():
     db_response = conection_create_user(user_data)
 
     return db_response
+
+@bp_route_user.route('/users', methods=['GET'])
+def get_users():
+
+    page, limit = get_params_users()
+
+    try:
+        page = int(page)
+        limit = int(limit)
+
+    except ValueError:
+        return jsonify({'error': 'Error, parametros invalidos'}), 400
+
+    users = conection_get_users(page, limit)
+
+    if not users:
+        return jsonify({'error':'Error, no se encontraron usuarios'}), 404
+
+    return users
