@@ -66,6 +66,14 @@ def conection_update_users(uid):
 
     data = request.get_json()
 
+
+    if data:
+        print('la data existe')
+    else:
+        print('la data no existe')
+        return jsonify({'error': 'No se ingresaron datos para actualizar'}), 400
+
+
     if 'email' in data or 'password' in data:
         return jsonify({'error': 'Error, No esta permitido modificar el email o el password'}), 400
 
