@@ -1,9 +1,6 @@
 from flask import Blueprint, request, jsonify
-from app.services.user_service import conection_create_user, conection_get_users, conection_update_users
+from app.services.user_service import conection_create_user, conection_get_users, conection_update_users, connection_db_delete
 from app.controllers.user_controller import get_params_users
-from app.database.db import db
-from app.models.user_model import User
-
 
 bp_route_user = Blueprint('bp_route_user', __name__)
 
@@ -55,21 +52,8 @@ def delete_users(uid):
     if not uid:
         return jsonify({'error': 'Error, ingresar ID para validar el usuario'}), 400
 
-    data_to_delete = db.session.query(User).filter_by(id=uid).first()
+    user_to_delete = connection_db_delete(uid)
 
-    if not data_to_delete:
-        return jsonify({'error': 'Error, el usuario no existe'}), 404
+    return user_to_delete
 
-    db.session.delete(data_to_delete)
-
-    try:
-        db.session.commit()
-        return jsonify({
-            'id': data_to_delete.id,
-            'name': 'Nombre eliminado',
-            'email': 'Email eliminado'
-            }), 200
-    except ValueError as e:
-        db.session.rollback()
-        return jsonify({'error': 'Error al eliminar al usuario', 'details': str(e)}), 500
     

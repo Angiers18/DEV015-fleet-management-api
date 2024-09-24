@@ -93,3 +93,25 @@ def conection_update_users(uid):
     except ValueError as e:
         db.session.rollback()
         return jsonify({'error': 'Error al actualizar el usuario', 'details': str(e)}), 500
+
+
+def connection_db_delete(uid):
+
+    data_to_delete = db.session.query(User).filter_by(id=uid).first()
+
+    if not data_to_delete:
+        return jsonify({'error': 'Error, el usuario no existe'}), 404
+
+    db.session.delete(data_to_delete)
+
+    try:
+        db.session.commit()
+        return jsonify({
+            'id': data_to_delete.id,
+            'name': 'Nombre eliminado',
+            'email': 'Email eliminado'
+            }),200
+
+    except ValueError as e:
+        db.session.rollback()
+        return jsonify({'error': 'Error al eliminar al usuario', 'details': str(e)}), 500
