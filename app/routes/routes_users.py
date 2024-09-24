@@ -48,3 +48,28 @@ def update_users(uid):
     new_data_update = conection_update_users(uid)
 
     return new_data_update
+
+@bp_route_user.route('/users/<uid>', methods=['DELETE'])
+def delete_users(uid):
+
+    if not uid:
+        return jsonify({'error': 'Error, ingresar ID para validar el usuario'}), 400
+
+    data_to_delete = db.session.query(User).filter_by(id=uid).first()
+
+    if not data_to_delete:
+        return jsonify({'error': 'Error, el usuario no existe'}), 404
+
+    db.session.delete(data_to_delete)
+
+    try:
+        db.session.commit()
+        return jsonify({
+            'id': data_to_delete.id,
+            'name': 'Nombre eliminado',
+            'email': 'Email eliminado'
+            }), 200
+    except ValueError as e:
+        db.session.rollback()
+        return jsonify({'error': 'Error al eliminar al usuario', 'details': str(e)}), 500
+    
