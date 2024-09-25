@@ -2,13 +2,13 @@ from app import db
 
 class Taxi(db.Model):
     """"
-    representa la tabla 'taxis' en la base de datos
-    
+    Representa la tabla 'taxis' en la base de datos
+ 
     args: 
-        id (int): numero id unico por taxi.
-        plate(str): placa del taxi, maximo tiene 10 caracteres
+        id (int): Número id único para cada taxi.
+        plate(str): Placa del taxi, máximo tiene 10 caracteres
 
-    metodo:
+    método:
         to_dict(): convierte la data en un diccionario
 
     """

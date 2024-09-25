@@ -6,21 +6,21 @@ from app.models.trajectories_model import Trajectory
 def query_latest():
 
     """
-    se realiza una subconsulta a la base de datos para obtener la última 
-    ubicación registrada (trayectoria) de cada taxi en el sistema
+    Se realiza una sub consulta a la base de datos para obtener la última ubicación
+    registrada (trayectoria) de cada taxi en el sistema.
 
-    utiliza una consulta para obtener la última trayectoria de cada taxi, y luego 
-    consulta los detalles de la trayectoria, incluyendo la fecha, latitud y longitud
+    Utiliza una consulta para obtener la última trayectoria de cada taxi, y luego
+    consulta los detalles de la trayectoria, incluyendo la fecha, latitud y longitud.
 
     returns:
         list: Una lista de objetos con la data
-        
+ 
         'id'(int) id del taxi,
         'plate'(int) placa del taxi,
         'date' (datetime) fecha de la última trayectoria,
         'latitude' latitud de la última ubicación registrada,
-        'longitude' longitud de la última ubicación registrada
-        
+        'longitude' longitud de la última ubicación registradaa
+ 
     """
 # Subconsulta que obtiene la última trayectoria por taxi_id
     subquery = db.session.query(

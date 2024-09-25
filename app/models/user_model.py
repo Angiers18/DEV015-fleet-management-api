@@ -3,16 +3,16 @@ from app import db
 class User(db.Model):
 
     """"
-     representa la tabla 'users' en la base de datos.
+     Representa la tabla 'users' en la base de datos.
     
      args: 
-        id (int): numero id unico para cada usuario.
-        name (str): nombre del usuario.
-        email (str): email del usuario.
-        password (str): contraseña del usuario.
+        id (int): Número ID unico para cada usuario.
+        name (str): Nombre del usuario.
+        email (str): Email del usuario.
+        password (str): Contraseña del usuario.
 
      metodo:
-        to_dict(): convierte la data en un diccionario.
+        to_dict(): Convierte la data en un diccionario.
 
     """
     __tablename__ = 'users'

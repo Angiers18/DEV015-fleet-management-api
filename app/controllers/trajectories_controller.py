@@ -3,9 +3,9 @@ from flask import request
 def get_params_trajectories():
 
     """
-    obtiene los params:
-        taxi_id: (int, required): numero de identificación de cada taxi
-        date: (datetime, required): fecha de la trayectoria
+    Obtiene los params:
+        taxi_id: (int, required): Número de identificación de cada taxi
+        date: (datetime, required): Fecha de la trayectoria
     
     returns:
         params: taxi_id, date 

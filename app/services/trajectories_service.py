@@ -5,16 +5,14 @@ from app.models.trajectories_model import Trajectory
 def conection_trajectories(taxi_id, date):
 
     """
-    consulta taxis en la base de datos con opciones de paginación y filtrado por placa.
+    Consulta las trayectorias en la base de datos filtrando por ID del taxi y la fecha.
 
     args:
-        page (int): numero de la pagina solicitada para la paginación
-        per_page (int): numero de resultados por pagina
-        plate (str, opcional): filtro por placa de taxi, si se proporciona, buscara taxis cuyas placas contengan esta cadena
-        limit (int): limite de resultados a devolver
+        taxi_id (int, requerido): Número único de cada taxi
+        date (datetime, requerido): Fecha almacenada por ubicación
 
     returns:
-        list: Una lista de diccionarios, donde cada diccionario representa los datos de un taxi.
+        list: Una lista de diccionarios, donde cada diccionario representa las trayectorias de un taxi en una fecha específica.
 
     """
 

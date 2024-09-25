@@ -3,7 +3,7 @@ from flask import request
 def get_params_taxis():
 
     """
-    obtiene los params:
+    Obtiene los params:
         page (int, opcional): El número de página para la paginación (por defecto es 1)
         per_page (int, opcional): La cantidad de taxis por página (por defecto es 10)
         plate (str, opcional): Filtro para buscar taxis por matrícula usando coincidencia parcial

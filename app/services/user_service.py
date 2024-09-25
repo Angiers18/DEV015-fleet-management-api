@@ -2,7 +2,7 @@ from flask import jsonify, request
 from app.database.db import db
 from app.models.user_model import User
 
-def conection_create_user(user_data):
+def connection_db_create_user(user_data):
 
     """
     consulta si el email ya existe en la base de datos y, si no existe, crea un nuevo usuario
@@ -14,10 +14,7 @@ def conection_create_user(user_data):
             password (str): La contraseña del usuario
 
     returns:
-            si el email ya existe, retorna un mensaje de error
-            si el usuario es creado exitosamente, retorna un diccionario con un mensaje de éxito y los datos del usuario (id, nombre, email)
-            si ocurre un error al guardar en la base de datos, retorna un mensaje de error detallando la causa
-   
+        retorna un diccionario con un mensaje de éxito y los datos del usuario (id, nombre, email)
     """
 
     # verifica si el email ya existe
@@ -50,15 +47,37 @@ def conection_create_user(user_data):
 
 
 
-def conection_get_users(page, limit):
+def connection_db_get_users(page, limit):
+
+
+    """
+    Consulta usuarios en la base de datos con opciones de paginación y filtrado por placa.
+
+    args:
+        page (int): Número de la página solicitada para la paginación.
+        limit (int): Límite de resultados a devolver.
+
+    returns:
+        list: Una lista de diccionarios, donde cada diccionario representa los datos de un usuario.
+   """
 
     query = db.session.query(User)
     users = query.offset((page - 1) * limit).limit(limit).all()
     return jsonify([user.to_dict() for user in users])
 
 
-def conection_update_users(uid):
+def connection__db_update_users(uid):
 
+    """
+    Con el parámetro (uid) hace una consulta a la base de datos filtrando por el ID del usuario 
+    y con los datos ingresados se actualiza la información del usuario.
+
+    args:
+        uid (int, requerido): Path param obligatorio, el ID del usuario a actualizar 
+
+    returns:
+         dict: un diccionario, que representa los datos del usuario.
+   """
     user = db.session.query(User).filter_by(id=uid).first()
 
     if not user:
@@ -95,8 +114,17 @@ def conection_update_users(uid):
         return jsonify({'error': 'Error al actualizar el usuario', 'details': str(e)}), 500
 
 
-def connection_db_delete(uid):
+def connection_db_delete_user(uid):
 
+    """
+    Con el parámetro (uid) hace una consulta a la base de datos filtrando por el ID del usuario y se elimina la información del usuario.
+
+    args:
+        uid (int, requerido): Path param obligatorio, el ID del usuario a actualizar 
+
+    returns:
+        dict: un diccionario, que representa el ID de usuario eliminado, el nombre y el email con el mensaje de eliminado
+   """
     data_to_delete = db.session.query(User).filter_by(id=uid).first()
 
     if not data_to_delete:

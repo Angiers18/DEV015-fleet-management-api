@@ -3,17 +3,17 @@ from app import db
 class Trajectory(db.Model):
 
     """"
-     representa la tabla 'trajectories' en la base de datos
+     Representa la tabla 'trajectories' en la base de datos
     
      args: 
-        id (int): numero id unico para cada trajectoria
-        taxi_id (int): numero id unico por taxi (relacionado con la tabla 'taxis)
-        date (dateTime): fecha y hora de la trajectoria
+        id (int): Número ID único para cada trayectoria
+        taxi_id (int): Número ID único por taxi (relacionado con la tabla 'taxis')
+        date (dateTime): fecha y hora de la trayectoria
         latitude (float): latitud de la trayectoria
         longitude (float) longitud de la trayectoria
 
-     metodo:
-        to_dict(): convierte la data en un diccionario
+     método:
+        to_dict(): Convierte la data en un diccionario
 
     """
 

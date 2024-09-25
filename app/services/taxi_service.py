@@ -7,10 +7,10 @@ def consult_taxis( page, per_page, plate, limit):
     Consulta taxis en la base de datos con opciones de paginación y filtrado por placa.
 
     args:
-        page (int): Número de la página solicitada para la paginación.
-        per_page (int): Número de resultados por página.
+        page (int, opcional): Número de la página solicitada para la paginación.
+        per_page (int, opcional): Número de resultados por página.
         plate (str, opcional): Filtro por placa de taxi. Si se proporciona, buscará taxis cuyas placas contengan esta cadena.
-        limit (int): Límite de resultados a devolver.
+        limit (int, opcional): Límite de resultados a devolver.
 
     returns:
         list: Una lista de diccionarios, donde cada diccionario representa los datos de un taxi.
@@ -29,4 +29,3 @@ def consult_taxis( page, per_page, plate, limit):
     # total = query.count()
 
     return [taxi.to_dict() for taxi in taxis]
-    
