@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from app.services.user_service import conection_create_user, conection_get_users, conection_update_users, connection_db_delete
+from app.services.user_service import connection__db_update_users, connection_db_create_user, connection_db_delete_user, connection_db_get_users
 from app.controllers.user_controller import get_params_users
 
 bp_route_user = Blueprint('bp_route_user', __name__)
@@ -13,7 +13,7 @@ def create_new_user():
     if not user_data or not 'name' in user_data or not 'email' in user_data or not 'password' in user_data:
         return jsonify({'error': 'Datos incompletos'}), 400
 
-    db_response = conection_create_user(user_data)
+    db_response = connection_db_create_user(user_data)
 
     return db_response
 
@@ -29,7 +29,7 @@ def get_users():
     except ValueError:
         return jsonify({'error': 'Error, parametros invalidos'}), 400
 
-    users = conection_get_users(page, limit)
+    users = connection_db_get_users(page, limit)
 
     if not users:
         return jsonify({'error':'Error, no se encontraron usuarios'}), 404
@@ -42,7 +42,7 @@ def update_users(uid):
     if not uid:
         return jsonify({'error': 'Error, ingresar ID para validar el usuario'}), 400
 
-    new_data_update = conection_update_users(uid)
+    new_data_update = connection__db_update_users(uid)
 
     return new_data_update
 
@@ -52,8 +52,6 @@ def delete_users(uid):
     if not uid:
         return jsonify({'error': 'Error, ingresar ID para validar el usuario'}), 400
 
-    user_to_delete = connection_db_delete(uid)
+    user_to_delete = connection__db_update_users(uid)
 
     return user_to_delete
-
-    
