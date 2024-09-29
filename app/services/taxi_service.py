@@ -1,7 +1,7 @@
 from app.database.db import db
 from app.models.taxi_model import Taxi
 
-def consult_taxis( page, per_page, plate, limit):
+def query_taxis( page, per_page, plate, limit):
 
     """
     Consulta taxis en la base de datos con opciones de paginación y filtrado por placa.

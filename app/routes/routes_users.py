@@ -52,6 +52,6 @@ def delete_users(uid):
     if not uid:
         return jsonify({'error': 'Error, ingresar ID para validar el usuario'}), 400
 
-    user_to_delete = connection__db_update_users(uid)
+    user_to_delete = connection_db_delete_user(uid)
 
     return user_to_delete
