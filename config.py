@@ -13,6 +13,7 @@ load_dotenv()
 
 # Importa la variable de entorno(privada) desde el archivo .env
 uri = os.getenv('BD_URI')
+uri_test = os.getenv('BD_URI_TEST') 
 
 class Config:
 
@@ -27,3 +28,8 @@ class Config:
     SQLALCHEMY_DATABASE_URI = uri
     #no rastrear todas las modificaciones SQL, eso hace que la aplicación sea más eficiente.
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+class Test_Config(Config):
+
+    SQLALCHEMY_DATABASE_URI = uri_test
+    TESTING = True # Activa el modo de prueba

@@ -1,3 +1,4 @@
+import pytest
 from app.services.taxi_service import query_taxis
 
 
