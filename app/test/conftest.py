@@ -1,7 +1,7 @@
 import pytest
 from app.models.taxi_model import Taxi
 from app import create_app
-from config import Test_Config
+from app.config import Test_Config
 
 
 @pytest.fixture
@@ -14,13 +14,35 @@ def mock_db_session(mocker):
 
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def test_app():
 
-    app = create_app()
-    app.config.from_object(Test_Config)
+    app = create_app(Test_Config)
+    # app.config.from_object(Test_Config)
     yield app
 
-@pytest.fixture
+
+
+@pytest.fixture(scope='session')
 def client(test_app):
     return test_app.test_client()
+
+
+@pytest.fixture(scope='session')
+def create_user(test_app, client):
+
+    data = {
+        'name': 'Aurora Nunes', 
+        'email': 'AuroNun17@test.com', 
+        'password': 'Nun3sAur01' 
+    } # data de prueba para ingresar en db
+
+    # simula peticion de cliente
+    response = client.post('/users', json=data)
+
+    #obtiene la respuesta generada
+    response_data = response.get_json()
+
+    # retorna el ID del usuario creado
+    print('Nuevo ID creado(fixture) ', response_data['id'])
+    yield response_data['id']

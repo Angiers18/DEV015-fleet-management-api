@@ -4,9 +4,11 @@ venv/
 #variable de entorno
 .env
 
-
 #cache
 __pychache__
 __pycache__/
 
 .pytest_cache
+
+
+.vscode/
