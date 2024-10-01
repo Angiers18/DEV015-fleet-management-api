@@ -1,3 +1,4 @@
+import bcrypt
 from flask import jsonify, request
 from app.database.db import db
 from app.models.user_model import User
@@ -23,11 +24,20 @@ def connection_db_create_user(user_data):
     if duplicate_email:
         return jsonify({"error": "El email ya existe"}), 409
 
+    _password = user_data['password']
+    hashed = bcrypt.hashpw(_password.encode('utf-8'), bcrypt.gensalt(12))
+
+    # if bcrypt.checkpw(_password.encode('utf-8'), hashed):
+    #     print('Match ^.^ ')
+    # else:
+    #     print('No match -.- ')
+
+
     # crea un nuevo usuario con los datos recibidos
     new_user = User(
         name=user_data['name'],
         email=user_data['email'],
-        password=user_data['password']
+        password=hashed.decode('utf-8')
     )
 
     db.session.add(new_user)
