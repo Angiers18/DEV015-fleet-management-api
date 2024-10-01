@@ -2,7 +2,8 @@
     Este archivo define las configuraciones de la app Flask
 
     Attributes:
-    Config (class): Clase base que define las configuraciones generales de la aplicación.
+    Config (class): Clase base que define la configuración de la base de datos de la aplicación.
+    Test_Config(Config) (class): Clase que define la configuración de la base de datos para tests.
 
 """
 import os # os interactua con el sistema operativo
@@ -12,6 +13,7 @@ load_dotenv()
 
 # Importa la variable de entorno(privada) desde el archivo .env
 uri = os.getenv('BD_URI')
+uri_test = os.getenv('BD_URI_TEST') 
 
 class Config:
 
@@ -24,6 +26,10 @@ class Config:
     
     """
     SQLALCHEMY_DATABASE_URI = uri
-
     #no rastrear todas las modificaciones SQL, eso hace que la aplicación sea más eficiente.
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+class Test_Config(Config):
+
+    SQLALCHEMY_DATABASE_URI = uri_test
+    TESTING = True # Activa el modo de prueba

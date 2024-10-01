@@ -1,5 +1,6 @@
 # Este file inicializa la aplicación Flask
 from flask import Flask
+from app.config import Config
 from app.database.db import db
 from app.routes.routes_taxis import bp_route_taxis
 from app.routes.routes_home import bp_route_home
@@ -9,9 +10,9 @@ from app.routes.routes_users import bp_route_user
 
 
 
-def create_app() :
+def create_app(clase = Config):
     app = Flask(__name__)
-    app.config.from_object('config.Config') # Cargar la configuración
+    app.config.from_object(clase) # Cargar la configuración
 
     # Inicializa la base de datos
     db.init_app(app)
