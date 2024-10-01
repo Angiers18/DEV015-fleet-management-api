@@ -1,4 +1,6 @@
 import pytest
+from app.database.db import db
+from app.models.user_model import User
 
 def test_create_user(test_app, client):
 
@@ -40,6 +42,10 @@ def test_update_user(test_app, client, create_user):
 
     assert response_data['name'] == update_data['name']
 
+    query = User.query.filter_by(name=update_data['name']).first()
+
+    assert query.name == update_data['name']
+
 
 
 def test_get_users_before_delete(test_app, client):
@@ -50,7 +56,7 @@ def test_get_users_before_delete(test_app, client):
     assert response.status_code == 200
 
     response_data = response.get_json()
-    print('cantidad de users en db', len(response_data))
+    print('cantidad de users en  response', len(response_data))
     assert len(response_data) == 2
 
 
@@ -66,6 +72,9 @@ def test_delete_user(test_app, client, create_user):
     print(response_data['name'])
     assert response_data['name'] == "Nombre eliminado"
 
+    query = User.query.filter_by(id=uid).first()
+    assert query is None
+
 
 def test_get_users_after_delete(test_app, client):
 
@@ -76,5 +85,5 @@ def test_get_users_after_delete(test_app, client):
 
     response_data = response.get_json()
 
-    print('cantidad de users en db', len(response_data))
+    print('cantidad de users en response', len(response_data))
     assert len(response_data) == 1
