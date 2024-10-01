@@ -2,6 +2,7 @@ import pytest
 from app.models.taxi_model import Taxi
 from app import create_app
 from app.config import Test_Config
+from app.database.db import db
 
 
 @pytest.fixture
@@ -18,8 +19,16 @@ def mock_db_session(mocker):
 def test_app():
 
     app = create_app(Test_Config)
-    # app.config.from_object(Test_Config)
-    yield app
+
+    with app.app_context():
+        db.create_all()  # crea tablas en la db para test
+        yield app  
+
+        # limpia la db después de cada test
+        for table in reversed(db.metadata.sorted_tables):
+            db.session.execute(table.delete())  # elimina registros de cada tabla
+        db.session.commit() 
+        db.session.remove() # cierra la sesión en db
 
 
 

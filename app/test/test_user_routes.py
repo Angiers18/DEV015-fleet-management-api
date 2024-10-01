@@ -75,6 +75,6 @@ def test_get_users_after_delete(test_app, client):
     assert response.status_code == 200
 
     response_data = response.get_json()
-    
+
     print('cantidad de users en db', len(response_data))
     assert len(response_data) == 1
