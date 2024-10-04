@@ -14,6 +14,7 @@ load_dotenv()
 # Importa la variable de entorno(privada) desde el archivo .env
 uri = os.getenv('BD_URI')
 uri_test = os.getenv('BD_URI_TEST') 
+key = os.getenv('JWT_SECRET')
 
 class Config:
 
@@ -28,6 +29,9 @@ class Config:
     SQLALCHEMY_DATABASE_URI = uri
     #no rastrear todas las modificaciones SQL, eso hace que la aplicación sea más eficiente.
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    #JWT captura la clave secreta del env
+    SECRET_KEY = key
 
 class Test_Config(Config):
 

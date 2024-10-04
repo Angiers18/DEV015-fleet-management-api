@@ -24,7 +24,8 @@ def test_create_user(test_app, client):
     # retorna el ID del usuario creado
     print('Nuevo ID creado', response_data['id'])
 
-
+    query = db.session.query(User).filter_by(email=data['email']).first()
+    assert query.name == data['name']
 
 
 def test_update_user(test_app, client, create_user):
@@ -42,9 +43,10 @@ def test_update_user(test_app, client, create_user):
 
     assert response_data['name'] == update_data['name']
 
-    query = User.query.filter_by(name=update_data['name']).first()
+    query = db.session.query(User).filter_by(name=update_data['name']).first()
 
     assert query.name == update_data['name']
+    print('Usuario actualizado')
 
 
 
@@ -72,7 +74,7 @@ def test_delete_user(test_app, client, create_user):
     print(response_data['name'])
     assert response_data['name'] == "Nombre eliminado"
 
-    query = User.query.filter_by(id=uid).first()
+    query = db.session.query(User).filter_by(id=uid).first()
     assert query is None
 
 
