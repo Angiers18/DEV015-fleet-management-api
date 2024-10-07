@@ -1,10 +1,12 @@
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required
 from app.services.user_service import connection__db_update_users, connection_db_create_user, connection_db_delete_user, connection_db_get_users
 from app.controllers.user_controller import get_params_users
 
 bp_route_user = Blueprint('bp_route_user', __name__)
 
 @bp_route_user.route('/users', methods=['POST'])
+@jwt_required()
 def create_new_user():
 
     user_data = request.get_json()
@@ -18,6 +20,7 @@ def create_new_user():
     return db_response
 
 @bp_route_user.route('/users', methods=['GET'])
+@jwt_required()
 def get_users():
 
     page, limit = get_params_users()
@@ -37,6 +40,7 @@ def get_users():
     return users
 
 @bp_route_user.route('/users/<uid>', methods=['PATCH'])
+@jwt_required()
 def update_users(uid):
 
     if not uid:
@@ -47,6 +51,7 @@ def update_users(uid):
     return new_data_update
 
 @bp_route_user.route('/users/<uid>', methods=['DELETE'])
+@jwt_required()
 def delete_users(uid):
 
     if not uid:

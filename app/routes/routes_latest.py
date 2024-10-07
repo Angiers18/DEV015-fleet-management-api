@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify
+from flask_jwt_extended import jwt_required
 from app.services.latest_service import query_latest
 from app.controllers.latest_controller import dict_latest_trajectories
 
@@ -6,6 +7,7 @@ from app.controllers.latest_controller import dict_latest_trajectories
 bp_route_latest = Blueprint('bp_route_latest', __name__)
 
 @bp_route_latest.route('/trajectories/latest', methods=['GET'])
+@jwt_required()
 def get_latest_trajectories():
 
     last_trajectories = query_latest()

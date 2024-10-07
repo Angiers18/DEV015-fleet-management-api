@@ -1,11 +1,13 @@
 from datetime import datetime
 from flask import Blueprint, jsonify
+from flask_jwt_extended import jwt_required
 from app.controllers.trajectories_controller import get_params_trajectories
 from app.services.trajectories_service import conection_trajectories
 
 bp_route_trajectories = Blueprint('bp_route_trajectories', __name__)
 
 @bp_route_trajectories.route("/trajectories", methods=['GET'])
+@jwt_required()
 def get_trajectories():
 
     taxi_id, date = get_params_trajectories()
