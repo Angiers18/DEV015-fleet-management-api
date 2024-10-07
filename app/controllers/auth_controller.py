@@ -1,4 +1,4 @@
-from flask import request, jsonify
+from flask import request
 from flask_jwt_extended import create_access_token
 from app.services.auth_service import check_user
 
