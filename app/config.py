@@ -6,6 +6,7 @@
     Test_Config(Config) (class): Clase que define la configuración de la base de datos para tests.
 
 """
+from datetime import timedelta
 import os # os interactua con el sistema operativo
 from dotenv import load_dotenv
 
@@ -32,6 +33,9 @@ class Config:
 
     #JWT captura la clave secreta del env
     SECRET_KEY = key
+    #tiempo de expiracion del token
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+
 
 class Test_Config(Config):
 
