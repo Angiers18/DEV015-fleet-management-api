@@ -27,10 +27,10 @@ def connection_db_create_user(user_data):
     _password = user_data['password']
     hashed = bcrypt.hashpw(_password.encode('utf-8'), bcrypt.gensalt(12))
 
-    # if bcrypt.checkpw(_password.encode('utf-8'), hashed):
-    #     print('Match ^.^ ')
-    # else:
-    #     print('No match -.- ')
+    if bcrypt.checkpw(_password.encode('utf-8'), hashed):
+        print('Match ^.^ ')
+    else:
+        print('No match -.- ')
 
 
     # crea un nuevo usuario con los datos recibidos

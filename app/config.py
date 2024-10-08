@@ -6,6 +6,7 @@
     Test_Config(Config) (class): Clase que define la configuración de la base de datos para tests.
 
 """
+from datetime import timedelta
 import os # os interactua con el sistema operativo
 from dotenv import load_dotenv
 
@@ -13,7 +14,8 @@ load_dotenv()
 
 # Importa la variable de entorno(privada) desde el archivo .env
 uri = os.getenv('BD_URI')
-uri_test = os.getenv('BD_URI_TEST') 
+uri_test = os.getenv('BD_URI_TEST')
+key = os.getenv('JWT_SECRET')
 
 class Config:
 
@@ -28,6 +30,12 @@ class Config:
     SQLALCHEMY_DATABASE_URI = uri
     #no rastrear todas las modificaciones SQL, eso hace que la aplicación sea más eficiente.
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    #JWT captura la clave secreta del env
+    SECRET_KEY = key
+    #tiempo de expiracion del token
+    JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=1)
+
 
 class Test_Config(Config):
 

@@ -1,5 +1,6 @@
 import pytest
 from app.models.taxi_model import Taxi
+from flask_jwt_extended import create_access_token
 from app import create_app
 from app.config import Test_Config
 from app.database.db import db
@@ -22,7 +23,7 @@ def test_app():
 
     with app.app_context():
         db.create_all()  # crea tablas en la db para test
-        yield app  
+        yield app
 
         # limpia la db después de cada test
         for table in reversed(db.metadata.sorted_tables):
@@ -38,7 +39,18 @@ def client(test_app):
 
 
 @pytest.fixture(scope='session')
-def create_user(test_app, client):
+def mock_auth(test_app, client):
+
+    access_token = create_access_token('test')
+    header = {
+        'Authorizaion': 'Bearer {}'.format(access_token)
+    }
+
+    a = client.environ_base['HTTP_AUTHORIZATION'] = header['Authorizaion']
+    yield a
+
+@pytest.fixture(scope='session')
+def create_user(test_app, client, mock_auth):
 
     data = {
         'name': 'Aurora Nunes', 
