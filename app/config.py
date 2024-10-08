@@ -14,7 +14,7 @@ load_dotenv()
 
 # Importa la variable de entorno(privada) desde el archivo .env
 uri = os.getenv('BD_URI')
-uri_test = os.getenv('BD_URI_TEST') 
+uri_test = os.getenv('BD_URI_TEST')
 key = os.getenv('JWT_SECRET')
 
 class Config:

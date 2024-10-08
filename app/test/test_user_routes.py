@@ -2,7 +2,7 @@ import pytest
 from app.database.db import db
 from app.models.user_model import User
 
-def test_create_user(test_app, client):
+def test_create_user(test_app, client, mock_auth):
 
     data = {
         'name': 'Thiago Silva', 
@@ -28,7 +28,7 @@ def test_create_user(test_app, client):
     assert query.name == data['name']
 
 
-def test_update_user(test_app, client, create_user):
+def test_update_user(test_app, client, mock_auth, create_user):
 
     update_data = {
         'name': 'Isabel Nunes'
@@ -50,7 +50,7 @@ def test_update_user(test_app, client, create_user):
 
 
 
-def test_get_users_before_delete(test_app, client):
+def test_get_users_before_delete(test_app, client, mock_auth):
 
     params = {'page': 1, 'limit': 5 }
     response = client.get('/users', query_string=params)
@@ -62,7 +62,7 @@ def test_get_users_before_delete(test_app, client):
     assert len(response_data) == 2
 
 
-def test_delete_user(test_app, client, create_user):
+def test_delete_user(test_app, client, mock_auth, create_user):
 
     uid = create_user
 
@@ -78,7 +78,7 @@ def test_delete_user(test_app, client, create_user):
     assert query is None
 
 
-def test_get_users_after_delete(test_app, client):
+def test_get_users_after_delete(test_app, client, mock_auth):
 
     params = {'page': 1, 'limit': 5 }
     response = client.get('/users', query_string=params)
