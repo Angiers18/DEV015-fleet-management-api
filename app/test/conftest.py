@@ -1,19 +1,8 @@
-import pytest
-from app.models.taxi_model import Taxi
 from flask_jwt_extended import create_access_token
+import pytest
 from app import create_app
 from app.config import Test_Config
 from app.database.db import db
-
-
-@pytest.fixture
-def mock_db_session(mocker):
-
-    taxi_mock = Taxi(id=25, plate='ARS181')
-    query_mock = mocker.patch('app.database.db.db.session.query')
-    query_mock.return_value.filter.return_value.offset.return_value.limit.return_value.all.return_value = [taxi_mock]
-    return query_mock
-
 
 
 @pytest.fixture(scope='session')
@@ -28,7 +17,7 @@ def test_app():
         # limpia la db después de cada test
         for table in reversed(db.metadata.sorted_tables):
             db.session.execute(table.delete())  # elimina registros de cada tabla
-        db.session.commit() 
+        db.session.commit()
         db.session.remove() # cierra la sesión en db
 
 
@@ -43,11 +32,11 @@ def mock_auth(test_app, client):
 
     access_token = create_access_token('test')
     header = {
-        'Authorizaion': 'Bearer {}'.format(access_token)
+        'Authorization': 'Bearer {}'.format(access_token)
     }
 
-    a = client.environ_base['HTTP_AUTHORIZATION'] = header['Authorizaion']
-    yield a
+    auth_header_value = client.environ_base['HTTP_AUTHORIZATION'] = header['Authorization']
+    yield auth_header_value
 
 @pytest.fixture(scope='session')
 def create_user(test_app, client, mock_auth):
