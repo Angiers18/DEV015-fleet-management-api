@@ -3,9 +3,9 @@
 ## Índice
 
 * [1. Resumen del proyecto](#1-resumen-del-proyecto)
-* [2. Características](#2-Características)
-* [3. Tecnologías](#3-Tecnologías)
-* [4. Consideraciones generales](#4-consideraciones-generales)
+* [2. Características](#2-características)
+* [3. Tecnologías](#3-tecnologías)
+* [4. Endpoints Principales](#4-endpoints-principales)
 
 ***
 
